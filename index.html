@@ -17,6 +17,10 @@
     <input type="number" id="R" placeholder="Resistència (Ω)">
 </div>
 
+<div>
+    <button onclick="restablir()">Restablir</button>
+</div>
+
 <div class="label" id="Vlabel">Volts: 0 V</div>
 <div class="bar-container"><div id="Vbar" class="bar" style="width:0%"></div></div>
 
@@ -58,10 +62,22 @@ function calcular() {
     if (!isNaN(R)) document.getElementById('Rbar').style.width = Math.min((R/1000)*100, 100) + "%";
 }
 
-// Afegim l'esdeveniment input per actualitzar automàticament
-document.getElementById('V').addEventListener('input', calcular);
-document.getElementById('I').addEventListener('input', calcular);
-document.getElementById('R').addEventListener('input', calcular);
+function restablir() {
+    document.getElementById('V').value = '';
+    document.getElementById('I').value = '';
+    document.getElementById('R').value = '';
+    document.getElementById('Vlabel').innerText = 'Volts: 0 V';
+    document.getElementById('Ilabel').innerText = 'Corrent: 0 mA';
+    document.getElementById('Rlabel').innerText = 'Resistència: 0 Ω';
+    document.getElementById('Vbar').style.width = '0%';
+    document.getElementById('Ibar').style.width = '0%';
+    document.getElementById('Rbar').style.width = '0%';
+}
+
+// Actualitzem els càlculs quan l'usuari surt del camp de text
+document.getElementById('V').addEventListener('blur', calcular);
+document.getElementById('I').addEventListener('blur', calcular);
+document.getElementById('R').addEventListener('blur', calcular);
 </script>
 
 </body>

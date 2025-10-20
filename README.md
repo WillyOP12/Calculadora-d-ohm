@@ -1,2 +1,2 @@
-# Calculadora-d-ohm
+# Calculadora d'ohm
 Una calculadora d'ohm :)

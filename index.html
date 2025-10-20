@@ -1,47 +1,37 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-    <meta charset="UTF-8">
-    <title>Calculadora de la llei d'Ohm</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Calculadora de la llei d'Ohm</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <h1>Calculadora de la llei d'Ohm</h1>
 <p>Deixa en blanc el valor que vols calcular</p>
 
-<!-- INPUTS -->
 <div>
     <input type="number" id="V" placeholder="Volts (V)">
     <input type="number" id="I" placeholder="Corrent (mA)">
     <input type="number" id="R" placeholder="Resistència (Ω)">
 </div>
-<button onclick="calcular()">Calcula</button>
 
-<!-- BARRAS -->
 <div class="label" id="Vlabel">Volts: 0 V</div>
-<div class="bar-container">
-    <div id="Vbar" class="bar" style="width:0%"></div>
-</div>
+<div class="bar-container"><div id="Vbar" class="bar" style="width:0%"></div></div>
 
 <div class="label" id="Ilabel">Corrent: 0 mA</div>
-<div class="bar-container">
-    <div id="Ibar" class="bar" style="width:0%"></div>
-</div>
+<div class="bar-container"><div id="Ibar" class="bar" style="width:0%"></div></div>
 
 <div class="label" id="Rlabel">Resistència: 0 Ω</div>
-<div class="bar-container">
-    <div id="Rbar" class="bar" style="width:0%"></div>
-</div>
+<div class="bar-container"><div id="Rbar" class="bar" style="width:0%"></div></div>
 
-<!-- JAVASCRIPT -->
 <script>
 function calcular() {
     let V = parseFloat(document.getElementById('V').value);
     let I = parseFloat(document.getElementById('I').value);
     let R = parseFloat(document.getElementById('R').value);
 
-    // Convertim mA a A per càlcul
+    // Convertim mA a A
     if (!isNaN(I)) I = I / 1000;
 
     // Calculs segons el valor que falti
@@ -50,22 +40,27 @@ function calcular() {
         document.getElementById('V').value = V.toFixed(2);
     } else if (isNaN(I) && !isNaN(V) && !isNaN(R)) {
         I = V / R;
-        document.getElementById('I').value = (I*1000).toFixed(2); // Tornem a mA
+        document.getElementById('I').value = (I*1000).toFixed(2);
     } else if (isNaN(R) && !isNaN(V) && !isNaN(I)) {
         R = V / I;
         document.getElementById('R').value = R.toFixed(2);
     }
 
     // Actualitzar labels
-    document.getElementById('Vlabel').innerText = `Volts: ${V.toFixed(2)} V`;
-    document.getElementById('Ilabel').innerText = `Corrent: ${(I*1000).toFixed(2)} mA`;
-    document.getElementById('Rlabel').innerText = `Resistència: ${R.toFixed(2)} Ω`;
+    if (!isNaN(V)) document.getElementById('Vlabel').innerText = `Volts: ${V.toFixed(2)} V`;
+    if (!isNaN(I)) document.getElementById('Ilabel').innerText = `Corrent: ${(I*1000).toFixed(2)} mA`;
+    if (!isNaN(R)) document.getElementById('Rlabel').innerText = `Resistència: ${R.toFixed(2)} Ω`;
 
-    // Actualitzar barres (màxims arbitrats per visual)
-    document.getElementById('Vbar').style.width = Math.min((V/50)*100, 100) + "%";
-    document.getElementById('Ibar').style.width = Math.min((I*1000/1000)*100, 100) + "%";
-    document.getElementById('Rbar').style.width = Math.min((R/1000)*100, 100) + "%";
+    // Actualitzar barres
+    if (!isNaN(V)) document.getElementById('Vbar').style.width = Math.min((V/50)*100, 100) + "%";
+    if (!isNaN(I)) document.getElementById('Ibar').style.width = Math.min((I*1000/1000)*100, 100) + "%";
+    if (!isNaN(R)) document.getElementById('Rbar').style.width = Math.min((R/1000)*100, 100) + "%";
 }
+
+// Afegim l'esdeveniment input per actualitzar automàticament
+document.getElementById('V').addEventListener('input', calcular);
+document.getElementById('I').addEventListener('input', calcular);
+document.getElementById('R').addEventListener('input', calcular);
 </script>
 
 </body>
